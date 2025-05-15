@@ -14,6 +14,6 @@ Backend del gestor de tareas desarrollado con **Node.js**, **Express** y **Postg
 ## 🛠️ Instalación local
 
 ```bash
-git clone https://github.com/TU_USUARIO/task-manager-backend.git
+git clone https://github.com/carlaval655/task-manager-backend.git
 cd task-manager-backend
 npm install
