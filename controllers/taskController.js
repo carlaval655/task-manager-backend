@@ -25,7 +25,12 @@ exports.getTasks = async (req, res) => {
   const where = { userId: req.user.id };
 
   if (status) where.status = status;
-  if (search) where.title = { [require('sequelize').Op.iLike]: `%${search}%` };
+  if (search) {
+    where[Op.or] = [
+      { title: { [Op.iLike]: `%${search}%` } },
+      { description: { [Op.iLike]: `%${search}%` } },
+    ];
+  }
 
   if (from && to) {
     where.dueDate = {
