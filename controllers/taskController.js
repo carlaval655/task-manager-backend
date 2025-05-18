@@ -1,4 +1,5 @@
 const { Task } = require('../models');
+const { Op } = require('sequelize');
 
 exports.createTask = async (req, res) => {
   try {
@@ -20,11 +21,17 @@ exports.createTask = async (req, res) => {
 };
 
 exports.getTasks = async (req, res) => {
-  const { status, search } = req.query;
+  const { status, search, from, to } = req.query;
   const where = { userId: req.user.id };
 
   if (status) where.status = status;
   if (search) where.title = { [require('sequelize').Op.iLike]: `%${search}%` };
+
+  if (from && to) {
+    where.dueDate = {
+      [Op.between]: [new Date(from), new Date(to)]
+    };
+  }
 
   try {
     const tasks = await Task.findAll({ where });
